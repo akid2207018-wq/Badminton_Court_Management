@@ -12,7 +12,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+            'booking.owner'  => \App\Http\Middleware\CheckBookingOwnership::class,
+            'booking.double' => \App\Http\Middleware\PreventDoubleBooking::class,
+            'court.open'     => \App\Http\Middleware\CheckCourtOpen::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

@@ -35,10 +35,18 @@ Route::middleware('auth')->group(function () {
     // Bookings
     Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
     Route::get('/bookings/create', [BookingController::class, 'create'])->name('bookings.create');
-    Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
-    Route::get('/bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
-    Route::patch('/bookings/{booking}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
-    Route::patch('/bookings/{booking}/confirm', [BookingController::class, 'confirm'])->name('bookings.confirm');
+    Route::post('/bookings', [BookingController::class, 'store'])
+        ->middleware(['booking.double', 'court.open'])
+        ->name('bookings.store');
+    Route::get('/bookings/{booking}', [BookingController::class, 'show'])
+        ->middleware('booking.owner')
+        ->name('bookings.show');
+    Route::patch('/bookings/{booking}/cancel', [BookingController::class, 'cancel'])
+        ->middleware('booking.owner')
+        ->name('bookings.cancel');
+    Route::patch('/bookings/{booking}/confirm', [BookingController::class, 'confirm'])
+        ->middleware('booking.owner')
+        ->name('bookings.confirm');
 
     // AJAX: get available time slots
     Route::get('/api/slots', [BookingController::class, 'getSlots'])->name('api.slots');
