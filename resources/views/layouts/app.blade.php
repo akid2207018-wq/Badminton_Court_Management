@@ -732,6 +732,13 @@
                class="{{ request()->routeIs('profile.*') ? 'active' : '' }}">
                 &#128100; My Profile
             </a>
+
+            <div class="nav-label">Debug</div>
+
+            <a href="{{ route('debug.cookies-sessions') }}"
+               class="{{ request()->routeIs('debug.*') ? 'active' : '' }}">
+                &#128274; Cookies &amp; Sessions
+            </a>
         </nav>
 
         <div class="sidebar-footer">
