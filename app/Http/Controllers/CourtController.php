@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Court;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\View\View;
 
 class CourtController extends Controller
@@ -43,6 +44,8 @@ class CourtController extends Controller
     public function show(Court $court): View
     {
         abort_if(!$court->isAvailable(), 404);
+
+        Cookie::queue('last_court', $court->name, 7 * 24 * 60);
 
         return view('courts.show', compact('court'));
     }
