@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CourtController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DebugController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +22,11 @@ Route::get('/courts', [CourtController::class, 'index'])->name('courts.index');
 Route::get('/courts/{court}', [CourtController::class, 'show'])->name('courts.show');
 
 Route::middleware('auth')->group(function () {
+
+    // Debug: Cookies & Sessions demo
+    Route::get('/debug/cookies-sessions', [DebugController::class, 'show'])->name('debug.cookies-sessions');
+    Route::post('/debug/reset-session', [DebugController::class, 'resetSession'])->name('debug.session.reset');
+    Route::post('/debug/clear-cookie', [DebugController::class, 'clearCookie'])->name('debug.cookie.clear');
 
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

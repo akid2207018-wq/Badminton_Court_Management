@@ -11,6 +11,15 @@ class PaymentRequest extends FormRequest
         return auth()->check();
     }
 
+    protected function prepareForValidation(): void
+    {
+        if ($this->card_number) {
+            $this->merge([
+                'card_number' => preg_replace('/\s/', '', $this->card_number),
+            ]);
+        }
+    }
+
     public function rules(): array
     {
         return [
